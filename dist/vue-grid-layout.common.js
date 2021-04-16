@@ -1,4 +1,4 @@
-/*! vue-grid-layout - 2.3.11 | (c) 2015, 2020  Gustavo Santos (JBay Solutions) <gustavo.santos@jbaysolutions.com> (http://www.jbaysolutions.com) | https://github.com/jbaysolutions/vue-grid-layout */
+/*! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxvue-grid-layout - 2.3.11 | (c) 2015, 2020  Gustavo Santos (JBay Solutions) <gustavo.santos@jbaysolutions.com> (http://www.jbaysolutions.com) | https://github.com/jbaysolutions/vue-grid-layout */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
