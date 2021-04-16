@@ -40,6 +40,10 @@
         },
         props: {
             // If true, the container height swells and contracts to fit contents
+	    offsetHeight: {
+	      type: Number,
+	      default: 0,
+	    },
             autoSize: {
                 type: Boolean,
                 default: true
@@ -304,7 +308,7 @@
                 if (!this.autoSize) return;
                 // console.log("bottom: " + bottom(this.layout))
                 // console.log("rowHeight + margins: " + (this.rowHeight + this.margin[1]) + this.margin[1])
-                const containerHeight =  bottom(this.layout) * (this.rowHeight + this.margin[1]) + this.margin[1] + 'px';
+                const containerHeight =  bottom(this.layout) * (this.rowHeight + this.margin[1]) + this.margin[1] + this.offsetHeight + 'px';
                 return containerHeight;
             },
             dragEvent: function (eventName, id, x, y, h, w) {
