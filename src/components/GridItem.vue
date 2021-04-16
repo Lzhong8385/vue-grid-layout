@@ -651,7 +651,7 @@
                 if (this.innerX !== pos.x || this.innerY !== pos.y) {
                     this.$emit("move", this.i, pos.x, pos.y);
                 }
-                if (event.type === "dragend" && (this.previousX !== this.innerX || this.previousY !== this.innerY)) {
+                if (event.type === "dragend") {
                     this.$emit("moved", this.i, pos.x, pos.y);
                 }
                 this.eventBus.$emit("dragEvent", event.type, this.i, pos.x, pos.y, this.innerH, this.innerW);
