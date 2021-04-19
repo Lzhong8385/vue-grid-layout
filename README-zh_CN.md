@@ -3,7 +3,7 @@
 <p align="center">
 <a href="https://www.npmjs.com/package/vue-grid-layout"><img src="https://img.shields.io/npm/v/vue-grid-layout.svg"/> <img src="https://img.shields.io/npm/dm/vue-grid-layout.svg"/></a> <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/vue-2.2.x-brightgreen.svg"/></a>
 </p>
-
+<p>我就fork下来 改成我们项目需要的样子 再发布出去 -.-</p>
 vue-grid-layout是一个类似于[Gridster](http://dsmorse.github.io/gridster.js/)的栅格布局系统, 适用于Vue.js。 **灵感源自于 [React-Grid-Layout](https://github.com/STRML/react-grid-layout)**
 
 ### **当前版本:** 2.3.11 (支持 Vue 2.2+)

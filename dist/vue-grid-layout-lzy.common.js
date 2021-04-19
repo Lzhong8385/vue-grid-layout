@@ -1,15 +1,6 @@
-/*! vue-grid-layout - 2.3.11 | (c) 2015, 2020  Gustavo Santos (JBay Solutions) <gustavo.santos@jbaysolutions.com> (http://www.jbaysolutions.com) | https://github.com/jbaysolutions/vue-grid-layout */
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("vue"));
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["VueGridLayout"] = factory(require("vue"));
-	else
-		root["VueGridLayout"] = factory(root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
-return /******/ (function(modules) { // webpackBootstrap
+/*! vue-grid-layout-lzy - 2.3.13 | (c) 2015, 2021  lzy5017 | https://github.com/Lzhong8385/vue-grid-layout.git */
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -214,17 +205,6 @@ module.exports = function (S, index, unicode) {
 
 /***/ }),
 
-/***/ "07e3":
-/***/ (function(module, exports) {
-
-var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
-};
-
-
-/***/ }),
-
 /***/ "0bfb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -267,6 +247,7 @@ module.exports = Object.keys || function keys(O) {
 
 // load the styles
 var content = __webpack_require__("ad20");
+if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -393,7 +374,7 @@ module.exports = function(options) {
         var debug = options.debug;
 
         function injectObject(element, callback) {
-            var OBJECT_STYLE = buildCssTextString(["display: block", "position: absolute", "top: 0", "left: 0", "width: 100%", "height: 100%", "border: none", "padding: 0", "margin: 0", "opacity: 0", "z-index: -1000", "pointer-events: none"]);
+            var OBJECT_STYLE = buildCssTextString(["display: block", "position: absolute", "top: 0", "left: 0", "width: 100%", "height: 100%", "border: none", "padding: 0", "margin: 0", "opacity: 0", "z-index: -1000", "pointer-events: none", "visibility: hidden"]);
 
             //The target element needs to be positioned (everything except static) so the absolute positioned object will be positioned relative to the target element.
 
@@ -620,25 +601,6 @@ detector.isLegacyOpera = function() {
 
 /***/ }),
 
-/***/ "1bc3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__("f772");
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (it, S) {
-  if (!isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-
 /***/ "1ca7":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -702,20 +664,6 @@ function removeWindowEventListener(event
 
   window.removeEventListener(event, callback);
 }
-
-/***/ }),
-
-/***/ "1ec9":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("f772");
-var document = __webpack_require__("e53d").document;
-// typeof document.createElement is 'object' in old IE
-var is = isObject(document) && isObject(document.createElement);
-module.exports = function (it) {
-  return is ? document.createElement(it) : {};
-};
-
 
 /***/ }),
 
@@ -1027,7 +975,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -1036,7 +989,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -1056,20 +1009,6 @@ function normalizeComponent (
     options: options
   }
 }
-
-
-/***/ }),
-
-/***/ "294c":
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return !!exec();
-  } catch (e) {
-    return true;
-  }
-};
 
 
 /***/ }),
@@ -1315,32 +1254,17 @@ module.exports = __webpack_require__("9e1e") ? function (object, key, value) {
 
 /***/ }),
 
-/***/ "35e8":
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__("d9f6");
-var createDesc = __webpack_require__("aebd");
-module.exports = __webpack_require__("8e60") ? function (object, key, value) {
-  return dP.f(object, key, createDesc(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
-};
-
-
-/***/ }),
-
 /***/ "37c8":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"64400f47-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/GridLayout.vue?vue&type=template&id=27b36423&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"bc163256-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/GridLayout.vue?vue&type=template&id=2bc36326&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"item",staticClass:"vue-grid-layout",style:(_vm.mergedStyle)},[_vm._t("default"),_c('grid-item',{directives:[{name:"show",rawName:"v-show",value:(_vm.isDragging),expression:"isDragging"}],staticClass:"vue-grid-placeholder",attrs:{"x":_vm.placeholder.x,"y":_vm.placeholder.y,"w":_vm.placeholder.w,"h":_vm.placeholder.h,"i":_vm.placeholder.i}})],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/GridLayout.vue?vue&type=template&id=27b36423&
+// CONCATENATED MODULE: ./src/components/GridLayout.vue?vue&type=template&id=2bc36326&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js
 var es7_object_get_own_property_descriptors = __webpack_require__("8e6e");
@@ -1360,15 +1284,10 @@ var es6_number_is_finite = __webpack_require__("fca0");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js
-var define_property = __webpack_require__("85f2");
-var define_property_default = /*#__PURE__*/__webpack_require__.n(define_property);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js
-
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 function _defineProperty(obj, key, value) {
   if (key in obj) {
-    define_property_default()(obj, key, {
+    Object.defineProperty(obj, key, {
       value: value,
       enumerable: true,
       configurable: true,
@@ -1393,7 +1312,7 @@ var utils = __webpack_require__("a2b6");
 // EXTERNAL MODULE: ./src/helpers/responsiveUtils.js
 var responsiveUtils = __webpack_require__("97a7");
 
-// EXTERNAL MODULE: ./src/components/GridItem.vue + 69 modules
+// EXTERNAL MODULE: ./src/components/GridItem.vue + 70 modules
 var GridItem = __webpack_require__("bc21");
 
 // EXTERNAL MODULE: ./src/helpers/DOM.js
@@ -1411,7 +1330,7 @@ var DOM = __webpack_require__("1ca7");
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 //
 //
@@ -1453,6 +1372,10 @@ var elementResizeDetectorMaker = __webpack_require__("eec4");
   },
   props: {
     // If true, the container height swells and contracts to fit contents
+    offsetHeight: {
+      type: Number,
+      default: 0
+    },
     autoSize: {
       type: Boolean,
       default: true
@@ -1586,7 +1509,10 @@ var elementResizeDetectorMaker = __webpack_require__("eec4");
     this.eventBus.$off('dragEvent', this.dragEventHandler);
     this.eventBus.$destroy();
     Object(DOM["c" /* removeWindowEventListener */])("resize", this.onWindowResize);
-    this.erd.uninstall(this.$refs.item);
+
+    if (this.erd) {
+      this.erd.uninstall(this.$refs.item);
+    }
   },
   beforeMount: function beforeMount() {
     this.$emit('layout-before-mount', this.layout);
@@ -1731,7 +1657,7 @@ var elementResizeDetectorMaker = __webpack_require__("eec4");
       if (!this.autoSize) return; // console.log("bottom: " + bottom(this.layout))
       // console.log("rowHeight + margins: " + (this.rowHeight + this.margin[1]) + this.margin[1])
 
-      var containerHeight = Object(utils["a" /* bottom */])(this.layout) * (this.rowHeight + this.margin[1]) + this.margin[1] + 'px';
+      var containerHeight = Object(utils["a" /* bottom */])(this.layout) * (this.rowHeight + this.margin[1]) + this.margin[1] + this.offsetHeight + 'px';
       return containerHeight;
     },
     dragEvent: function dragEvent(eventName, id, x, y, h, w) {
@@ -1783,7 +1709,7 @@ var elementResizeDetectorMaker = __webpack_require__("eec4");
       var hasCollisions;
 
       if (this.preventCollision) {
-        var collisions = Object(utils["e" /* getAllCollisions */])(this.layout, _objectSpread({}, l, {
+        var collisions = Object(utils["e" /* getAllCollisions */])(this.layout, _objectSpread(_objectSpread({}, l), {}, {
           w: w,
           h: h
         })).filter(function (layoutItem) {
@@ -1950,18 +1876,6 @@ module.exports = function (Constructor, NAME, next) {
 
 /***/ }),
 
-/***/ "454f":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("46a7");
-var $Object = __webpack_require__("584a").Object;
-module.exports = function defineProperty(it, key, desc) {
-  return $Object.defineProperty(it, key, desc);
-};
-
-
-/***/ }),
-
 /***/ "456d":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2002,16 +1916,6 @@ module.exports = function (bitmap, value) {
     value: value
   };
 };
-
-
-/***/ }),
-
-/***/ "46a7":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__("63b6");
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__("8e60"), 'Object', { defineProperty: __webpack_require__("d9f6").f });
 
 
 /***/ }),
@@ -2068,7 +1972,11 @@ __webpack_require__("214f")('match', 1, function (defined, MATCH, $match, maybeC
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "default", function() { return /* binding */ addStylesClient; });
 
 // CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/listToStyles.js
 /**
@@ -2100,7 +2008,6 @@ function listToStyles (parentId, list) {
 }
 
 // CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/addStylesClient.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return addStylesClient; });
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -2572,7 +2479,7 @@ var store = global[SHARED] || (global[SHARED] = {});
 })('versions', []).push({
   version: core.version,
   mode: __webpack_require__("2d00") ? 'pure' : 'global',
-  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
 });
 
 
@@ -2605,15 +2512,6 @@ $export($export.P + $export.F * (fails(function () {
       : $sort.call(toObject(this), aFunction(comparefn));
   }
 });
-
-
-/***/ }),
-
-/***/ "584a":
-/***/ (function(module, exports) {
-
-var core = module.exports = { version: '2.6.10' };
-if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
 /***/ }),
@@ -2751,7 +2649,7 @@ module.exports = function (that, target, C) {
 /* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6e21");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
@@ -2826,75 +2724,6 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 /***/ }),
 
-/***/ "63b6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("e53d");
-var core = __webpack_require__("584a");
-var ctx = __webpack_require__("d864");
-var hide = __webpack_require__("35e8");
-var has = __webpack_require__("07e3");
-var PROTOTYPE = 'prototype';
-
-var $export = function (type, name, source) {
-  var IS_FORCED = type & $export.F;
-  var IS_GLOBAL = type & $export.G;
-  var IS_STATIC = type & $export.S;
-  var IS_PROTO = type & $export.P;
-  var IS_BIND = type & $export.B;
-  var IS_WRAP = type & $export.W;
-  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
-  var expProto = exports[PROTOTYPE];
-  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
-  var key, own, out;
-  if (IS_GLOBAL) source = name;
-  for (key in source) {
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    if (own && has(exports, key)) continue;
-    // export native or passed
-    out = own ? target[key] : source[key];
-    // prevent global pollution for namespaces
-    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-    // bind timers to global for call from export context
-    : IS_BIND && own ? ctx(out, global)
-    // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function (C) {
-      var F = function (a, b, c) {
-        if (this instanceof C) {
-          switch (arguments.length) {
-            case 0: return new C();
-            case 1: return new C(a);
-            case 2: return new C(a, b);
-          } return new C(a, b, c);
-        } return C.apply(this, arguments);
-      };
-      F[PROTOTYPE] = C[PROTOTYPE];
-      return F;
-    // make static versions for prototype methods
-    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if (IS_PROTO) {
-      (exports.virtual || (exports.virtual = {}))[key] = out;
-      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
-    }
-  }
-};
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library`
-module.exports = $export;
-
-
-/***/ }),
-
 /***/ "6821":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2945,6 +2774,7 @@ module.exports = function (it, S) {
 
 // load the styles
 var content = __webpack_require__("9cbe");
+if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -3026,27 +2856,6 @@ module.exports = function (index, length) {
 
 /***/ }),
 
-/***/ "794b":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = !__webpack_require__("8e60") && !__webpack_require__("294c")(function () {
-  return Object.defineProperty(__webpack_require__("1ec9")('div'), 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-
-/***/ "79aa":
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
-  return it;
-};
-
-
-/***/ }),
-
 /***/ "79e5":
 /***/ (function(module, exports) {
 
@@ -3101,7 +2910,7 @@ NAME in FProto || __webpack_require__("9e1e") && dP(FProto, NAME, {
 /***/ "8378":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.10' };
+var core = module.exports = { version: '2.6.12' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -3112,13 +2921,6 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 module.exports = {};
 
-
-/***/ }),
-
-/***/ "85f2":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("454f");
 
 /***/ }),
 
@@ -3180,18 +2982,7 @@ module.exports = {
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "8e60":
-/***/ (function(module, exports, __webpack_require__) {
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__("294c")(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-});
-
+module.exports = require("vue");
 
 /***/ }),
 
@@ -4582,21 +4373,6 @@ exports.push([module.i, ".vue-grid-layout{position:relative;-webkit-transition:h
 
 /***/ }),
 
-/***/ "aebd":
-/***/ (function(module, exports) {
-
-module.exports = function (bitmap, value) {
-  return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
-  };
-};
-
-
-/***/ }),
-
 /***/ "b0c5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4645,18 +4421,20 @@ utils.forEach = function(collection, callback) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// NAMESPACE OBJECT: ./node_modules/@interactjs/snappers/all.js
 var all_namespaceObject = {};
 __webpack_require__.r(all_namespaceObject);
 __webpack_require__.d(all_namespaceObject, "edgeTarget", function() { return edgeTarget; });
 __webpack_require__.d(all_namespaceObject, "elements", function() { return snappers_elements; });
 __webpack_require__.d(all_namespaceObject, "grid", function() { return grid; });
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"64400f47-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/GridItem.vue?vue&type=template&id=5a90b5a5&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"bc163256-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/GridItem.vue?vue&type=template&id=21d5b51c&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"item",staticClass:"vue-grid-item",class:_vm.classObj,style:(_vm.style)},[_vm._t("default"),(_vm.resizableAndNotStatic)?_c('span',{ref:"handle",class:_vm.resizableHandleClass}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/GridItem.vue?vue&type=template&id=5a90b5a5&
+// CONCATENATED MODULE: ./src/components/GridItem.vue?vue&type=template&id=21d5b51c&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.replace.js
 var es6_regexp_replace = __webpack_require__("a481");
@@ -4847,7 +4625,6 @@ const array = thing => object(thing) && typeof thing.length !== 'undefined' && f
 // CONCATENATED MODULE: ./node_modules/@interactjs/utils/browser.js
 
 
-
 const browser = {
   init: browser_init,
   supportsTouch: null,
@@ -4863,7 +4640,7 @@ const browser = {
 
 function browser_init(window) {
   const Element = utils_domObjects.Element;
-  const navigator = win.navigator; // Does the browser support touch input?
+  const navigator = window.navigator || {}; // Does the browser support touch input?
 
   browser.supportsTouch = 'ontouchstart' in window || is.func(window.DocumentTouch) && utils_domObjects.document instanceof window.DocumentTouch; // Does the browser support PointerEvents
 
@@ -4892,7 +4669,7 @@ function browser_init(window) {
     cancel: 'pointercancel'
   } : null; // because Webkit and Opera still use 'mousewheel' event type
 
-  browser.wheelEvent = 'onmousewheel' in utils_domObjects.document ? 'mousewheel' : 'wheel';
+  browser.wheelEvent = utils_domObjects.document && 'onmousewheel' in utils_domObjects.document ? 'mousewheel' : 'wheel';
 }
 
 /* harmony default export */ var utils_browser = (browser);
@@ -4944,6 +4721,7 @@ function clone(source) {
 // CONCATENATED MODULE: ./node_modules/@interactjs/utils/extend.js
 function extend(dest, source) {
   for (const prop in source) {
+    ;
     dest[prop] = source[prop];
   }
 
@@ -4956,28 +4734,28 @@ let lastTime = 0;
 let request;
 let cancel;
 
-function raf_init(window) {
-  request = window.requestAnimationFrame;
-  cancel = window.cancelAnimationFrame;
+function raf_init(global) {
+  request = global.requestAnimationFrame;
+  cancel = global.cancelAnimationFrame;
 
   if (!request) {
     const vendors = ['ms', 'moz', 'webkit', 'o'];
 
     for (const vendor of vendors) {
-      request = window[`${vendor}RequestAnimationFrame`];
-      cancel = window[`${vendor}CancelAnimationFrame`] || window[`${vendor}CancelRequestAnimationFrame`];
+      request = global[`${vendor}RequestAnimationFrame`];
+      cancel = global[`${vendor}CancelAnimationFrame`] || global[`${vendor}CancelRequestAnimationFrame`];
     }
   }
 
-  request = request && request.bind(window);
-  cancel = cancel && cancel.bind(window);
+  request = request && request.bind(global);
+  cancel = cancel && cancel.bind(global);
 
   if (!request) {
     request = callback => {
       const currTime = Date.now();
-      const timeToCall = Math.max(0, 16 - (currTime - lastTime)); // eslint-disable-next-line standard/no-callback-literal
-
-      const token = window.setTimeout(() => {
+      const timeToCall = Math.max(0, 16 - (currTime - lastTime));
+      const token = global.setTimeout(() => {
+        // eslint-disable-next-line node/no-callback-literal
         callback(currTime + timeToCall);
       }, timeToCall);
       lastTime = currTime + timeToCall;
@@ -5228,18 +5006,21 @@ function indexOfDeepestElement(elements) {
     }
 
     const parents = [currentNodeParents[commonIndex - 1], currentNodeParents[commonIndex], deepestNodeParents[commonIndex]];
-    let child = parents[0].lastChild;
 
-    while (child) {
-      if (child === parents[1]) {
-        deepestNodeIndex = i;
-        deepestNodeParents = currentNodeParents;
-        break;
-      } else if (child === parents[2]) {
-        break;
+    if (parents[0]) {
+      let child = parents[0].lastChild;
+
+      while (child) {
+        if (child === parents[1]) {
+          deepestNodeIndex = i;
+          deepestNodeParents = currentNodeParents;
+          break;
+        } else if (child === parents[2]) {
+          break;
+        }
+
+        child = child.previousSibling;
       }
-
-      child = child.previousSibling;
     }
   }
 
@@ -5475,10 +5256,10 @@ Object.defineProperty(BaseEvent.prototype, 'interaction', {
 
 });
 //# sourceMappingURL=BaseEvent.js.map
-// CONCATENATED MODULE: ./node_modules/@interactjs/core/defaultOptions.js
+// CONCATENATED MODULE: ./node_modules/@interactjs/core/options.js
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 // export interface Options extends BaseDefaults, PerActionDefaults {}
-const defaultOptions_defaults = {
+const options_defaults = {
   base: {
     preventDefault: 'auto',
     deltaSource: 'page'
@@ -5492,7 +5273,7 @@ const defaultOptions_defaults = {
   },
   actions: {}
 };
-//# sourceMappingURL=defaultOptions.js.map
+//# sourceMappingURL=options.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/core/InteractEvent.js
 
 
@@ -5500,7 +5281,6 @@ const defaultOptions_defaults = {
 
 
 class InteractEvent_InteractEvent extends BaseEvent {
-  // drag
   // resize
 
   /** */
@@ -5532,13 +5312,11 @@ class InteractEvent_InteractEvent extends BaseEvent {
     this.speed = void 0;
     this.swipe = void 0;
     this.timeStamp = void 0;
-    this.dragEnter = void 0;
-    this.dragLeave = void 0;
     this.axes = void 0;
     this.preEnd = void 0;
     element = element || interaction.element;
     const target = interaction.interactable;
-    const deltaSource = (target && target.options || defaultOptions_defaults).deltaSource;
+    const deltaSource = (target && target.options || options_defaults).deltaSource;
     const origin = getOriginXY(target, element, actionName);
     const starting = phase === 'start';
     const ending = phase === 'end';
@@ -5733,6 +5511,279 @@ Object.defineProperties(InteractEvent_InteractEvent.prototype, {
   }
 });
 //# sourceMappingURL=InteractEvent.js.map
+// CONCATENATED MODULE: ./node_modules/@interactjs/utils/misc.js
+
+function warnOnce(method, message) {
+  let warned = false;
+  return function () {
+    if (!warned) {
+      ;
+      win.console.warn(message);
+      warned = true;
+    }
+
+    return method.apply(this, arguments);
+  };
+}
+function copyAction(dest, src) {
+  dest.name = src.name;
+  dest.axis = src.axis;
+  dest.edges = src.edges;
+  return dest;
+}
+const sign = n => n >= 0 ? 1 : -1;
+//# sourceMappingURL=misc.js.map
+// CONCATENATED MODULE: ./node_modules/@interactjs/utils/pointerUtils.js
+
+
+
+
+
+
+function copyCoords(dest, src) {
+  dest.page = dest.page || {};
+  dest.page.x = src.page.x;
+  dest.page.y = src.page.y;
+  dest.client = dest.client || {};
+  dest.client.x = src.client.x;
+  dest.client.y = src.client.y;
+  dest.timeStamp = src.timeStamp;
+}
+function setCoordDeltas(targetObj, prev, cur) {
+  targetObj.page.x = cur.page.x - prev.page.x;
+  targetObj.page.y = cur.page.y - prev.page.y;
+  targetObj.client.x = cur.client.x - prev.client.x;
+  targetObj.client.y = cur.client.y - prev.client.y;
+  targetObj.timeStamp = cur.timeStamp - prev.timeStamp;
+}
+function setCoordVelocity(targetObj, delta) {
+  const dt = Math.max(delta.timeStamp / 1000, 0.001);
+  targetObj.page.x = delta.page.x / dt;
+  targetObj.page.y = delta.page.y / dt;
+  targetObj.client.x = delta.client.x / dt;
+  targetObj.client.y = delta.client.y / dt;
+  targetObj.timeStamp = dt;
+}
+function setZeroCoords(targetObj) {
+  targetObj.page.x = 0;
+  targetObj.page.y = 0;
+  targetObj.client.x = 0;
+  targetObj.client.y = 0;
+}
+function isNativePointer(pointer) {
+  return pointer instanceof utils_domObjects.Event || pointer instanceof utils_domObjects.Touch;
+} // Get specified X/Y coords for mouse or event.touches[0]
+
+function getXY(type, pointer, xy) {
+  xy = xy || {};
+  type = type || 'page';
+  xy.x = pointer[type + 'X'];
+  xy.y = pointer[type + 'Y'];
+  return xy;
+}
+function getPageXY(pointer, page) {
+  page = page || {
+    x: 0,
+    y: 0
+  }; // Opera Mobile handles the viewport and scrolling oddly
+
+  if (utils_browser.isOperaMobile && isNativePointer(pointer)) {
+    getXY('screen', pointer, page);
+    page.x += window.scrollX;
+    page.y += window.scrollY;
+  } else {
+    getXY('page', pointer, page);
+  }
+
+  return page;
+}
+function getClientXY(pointer, client) {
+  client = client || {};
+
+  if (utils_browser.isOperaMobile && isNativePointer(pointer)) {
+    // Opera Mobile handles the viewport and scrolling oddly
+    getXY('screen', pointer, client);
+  } else {
+    getXY('client', pointer, client);
+  }
+
+  return client;
+}
+function getPointerId(pointer) {
+  return is.number(pointer.pointerId) ? pointer.pointerId : pointer.identifier;
+}
+function setCoords(dest, pointers, timeStamp) {
+  const pointer = pointers.length > 1 ? pointerAverage(pointers) : pointers[0];
+  getPageXY(pointer, dest.page);
+  getClientXY(pointer, dest.client);
+  dest.timeStamp = timeStamp;
+}
+function getTouchPair(event) {
+  const touches = []; // array of touches is supplied
+
+  if (is.array(event)) {
+    touches[0] = event[0];
+    touches[1] = event[1];
+  } // an event
+  else {
+      if (event.type === 'touchend') {
+        if (event.touches.length === 1) {
+          touches[0] = event.touches[0];
+          touches[1] = event.changedTouches[0];
+        } else if (event.touches.length === 0) {
+          touches[0] = event.changedTouches[0];
+          touches[1] = event.changedTouches[1];
+        }
+      } else {
+        touches[0] = event.touches[0];
+        touches[1] = event.touches[1];
+      }
+    }
+
+  return touches;
+}
+function pointerAverage(pointers) {
+  const average = {
+    pageX: 0,
+    pageY: 0,
+    clientX: 0,
+    clientY: 0,
+    screenX: 0,
+    screenY: 0
+  };
+
+  for (const pointer of pointers) {
+    for (const prop in average) {
+      average[prop] += pointer[prop];
+    }
+  }
+
+  for (const prop in average) {
+    average[prop] /= pointers.length;
+  }
+
+  return average;
+}
+function touchBBox(event) {
+  if (!event.length) {
+    return null;
+  }
+
+  const touches = getTouchPair(event);
+  const minX = Math.min(touches[0].pageX, touches[1].pageX);
+  const minY = Math.min(touches[0].pageY, touches[1].pageY);
+  const maxX = Math.max(touches[0].pageX, touches[1].pageX);
+  const maxY = Math.max(touches[0].pageY, touches[1].pageY);
+  return {
+    x: minX,
+    y: minY,
+    left: minX,
+    top: minY,
+    right: maxX,
+    bottom: maxY,
+    width: maxX - minX,
+    height: maxY - minY
+  };
+}
+function touchDistance(event, deltaSource) {
+  const sourceX = deltaSource + 'X';
+  const sourceY = deltaSource + 'Y';
+  const touches = getTouchPair(event);
+  const dx = touches[0][sourceX] - touches[1][sourceX];
+  const dy = touches[0][sourceY] - touches[1][sourceY];
+  return hypot(dx, dy);
+}
+function touchAngle(event, deltaSource) {
+  const sourceX = deltaSource + 'X';
+  const sourceY = deltaSource + 'Y';
+  const touches = getTouchPair(event);
+  const dx = touches[1][sourceX] - touches[0][sourceX];
+  const dy = touches[1][sourceY] - touches[0][sourceY];
+  const angle = 180 * Math.atan2(dy, dx) / Math.PI;
+  return angle;
+}
+function getPointerType(pointer) {
+  return is.string(pointer.pointerType) ? pointer.pointerType : is.number(pointer.pointerType) ? [undefined, undefined, 'touch', 'pen', 'mouse'][pointer.pointerType] : // if the PointerEvent API isn't available, then the "pointer" must
+  // be either a MouseEvent, TouchEvent, or Touch object
+  /touch/.test(pointer.type || '') || pointer instanceof utils_domObjects.Touch ? 'touch' : 'mouse';
+} // [ event.target, event.currentTarget ]
+
+function getEventTargets(event) {
+  const path = is.func(event.composedPath) ? event.composedPath() : event.path;
+  return [getActualElement(path ? path[0] : event.target), getActualElement(event.currentTarget)];
+}
+function newCoords() {
+  return {
+    page: {
+      x: 0,
+      y: 0
+    },
+    client: {
+      x: 0,
+      y: 0
+    },
+    timeStamp: 0
+  };
+}
+function coordsToEvent(coords) {
+  const event = {
+    coords,
+
+    get page() {
+      return this.coords.page;
+    },
+
+    get client() {
+      return this.coords.client;
+    },
+
+    get timeStamp() {
+      return this.coords.timeStamp;
+    },
+
+    get pageX() {
+      return this.coords.page.x;
+    },
+
+    get pageY() {
+      return this.coords.page.y;
+    },
+
+    get clientX() {
+      return this.coords.client.x;
+    },
+
+    get clientY() {
+      return this.coords.client.y;
+    },
+
+    get pointerId() {
+      return this.coords.pointerId;
+    },
+
+    get target() {
+      return this.coords.target;
+    },
+
+    get type() {
+      return this.coords.type;
+    },
+
+    get pointerType() {
+      return this.coords.pointerType;
+    },
+
+    get buttons() {
+      return this.coords.buttons;
+    },
+
+    preventDefault() {}
+
+  };
+  return event;
+}
+
+//# sourceMappingURL=pointerUtils.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/core/isNonNativeEvent.js
 function isNonNativeEvent(type, actions) {
   if (actions.phaselessTypes[type]) {
@@ -5748,6 +5799,261 @@ function isNonNativeEvent(type, actions) {
   return false;
 }
 //# sourceMappingURL=isNonNativeEvent.js.map
+// CONCATENATED MODULE: ./node_modules/@interactjs/core/InteractStatic.js
+/** @module interact */
+
+
+
+
+
+
+function createInteractStatic(scope) {
+  /**
+   * ```js
+   * interact('#draggable').draggable(true)
+   *
+   * var rectables = interact('rect')
+   * rectables
+   *   .gesturable(true)
+   *   .on('gesturemove', function (event) {
+   *       // ...
+   *   })
+   * ```
+   *
+   * The methods of this variable can be used to set elements as interactables
+   * and also to change various default settings.
+   *
+   * Calling it as a function and passing an element or a valid CSS selector
+   * string returns an Interactable object which has various methods to configure
+   * it.
+   *
+   * @global
+   *
+   * @param {Element | string} target The HTML or SVG Element to interact with
+   * or CSS selector
+   * @return {Interactable}
+   */
+  const interact = (target, options) => {
+    let interactable = scope.interactables.get(target, options);
+
+    if (!interactable) {
+      interactable = scope.interactables.new(target, options);
+      interactable.events.global = interact.globalEvents;
+    }
+
+    return interactable;
+  }; // expose the functions used to calculate multi-touch properties
+
+
+  interact.getPointerAverage = pointerAverage;
+  interact.getTouchBBox = touchBBox;
+  interact.getTouchDistance = touchDistance;
+  interact.getTouchAngle = touchAngle;
+  interact.getElementRect = getElementRect;
+  interact.getElementClientRect = getElementClientRect;
+  interact.matchesSelector = matchesSelector;
+  interact.closest = domUtils_closest;
+  interact.globalEvents = {}; // eslint-disable-next-line no-undef
+
+  interact.version = "1.10.11";
+  interact.scope = scope;
+  /**
+   * Use a plugin
+   *
+   * @alias module:interact.use
+   *
+   */
+
+  interact.use = function (plugin, options) {
+    this.scope.usePlugin(plugin, options);
+    return this;
+  };
+  /**
+   * Check if an element or selector has been set with the {@link interact}
+   * function
+   *
+   * @alias module:interact.isSet
+   *
+   * @param {Target} target The Element or string being searched for
+   * @param {object} options
+   * @return {boolean} Indicates if the element or CSS selector was previously
+   * passed to interact
+   */
+
+
+  interact.isSet = function (target, options) {
+    return !!this.scope.interactables.get(target, options && options.context);
+  };
+  /**
+   * @deprecated
+   * Add a global listener for an InteractEvent or adds a DOM event to `document`
+   *
+   * @alias module:interact.on
+   *
+   * @param {string | array | object} type The types of events to listen for
+   * @param {function} listener The function event (s)
+   * @param {object | boolean} [options] object or useCapture flag for
+   * addEventListener
+   * @return {object} interact
+   */
+
+
+  interact.on = warnOnce(function on(type, listener, options) {
+    if (is.string(type) && type.search(' ') !== -1) {
+      type = type.trim().split(/ +/);
+    }
+
+    if (is.array(type)) {
+      for (const eventType of type) {
+        this.on(eventType, listener, options);
+      }
+
+      return this;
+    }
+
+    if (is.object(type)) {
+      for (const prop in type) {
+        this.on(prop, type[prop], listener);
+      }
+
+      return this;
+    } // if it is an InteractEvent type, add listener to globalEvents
+
+
+    if (isNonNativeEvent(type, this.scope.actions)) {
+      // if this type of event was never bound
+      if (!this.globalEvents[type]) {
+        this.globalEvents[type] = [listener];
+      } else {
+        this.globalEvents[type].push(listener);
+      }
+    } // If non InteractEvent type, addEventListener to document
+    else {
+        this.scope.events.add(this.scope.document, type, listener, {
+          options
+        });
+      }
+
+    return this;
+  }, 'The interact.on() method is being deprecated');
+  /**
+   * @deprecated
+   * Removes a global InteractEvent listener or DOM event from `document`
+   *
+   * @alias module:interact.off
+   *
+   * @param {string | array | object} type The types of events that were listened
+   * for
+   * @param {function} listener The listener function to be removed
+   * @param {object | boolean} options [options] object or useCapture flag for
+   * removeEventListener
+   * @return {object} interact
+   */
+
+  interact.off = warnOnce(function off(type, listener, options) {
+    if (is.string(type) && type.search(' ') !== -1) {
+      type = type.trim().split(/ +/);
+    }
+
+    if (is.array(type)) {
+      for (const eventType of type) {
+        this.off(eventType, listener, options);
+      }
+
+      return this;
+    }
+
+    if (is.object(type)) {
+      for (const prop in type) {
+        this.off(prop, type[prop], listener);
+      }
+
+      return this;
+    }
+
+    if (isNonNativeEvent(type, this.scope.actions)) {
+      let index;
+
+      if (type in this.globalEvents && (index = this.globalEvents[type].indexOf(listener)) !== -1) {
+        this.globalEvents[type].splice(index, 1);
+      }
+    } else {
+      this.scope.events.remove(this.scope.document, type, listener, options);
+    }
+
+    return this;
+  }, 'The interact.off() method is being deprecated');
+
+  interact.debug = function () {
+    return this.scope;
+  };
+  /**
+   * @alias module:interact.supportsTouch
+   *
+   * @return {boolean} Whether or not the browser supports touch input
+   */
+
+
+  interact.supportsTouch = function () {
+    return utils_browser.supportsTouch;
+  };
+  /**
+   * @alias module:interact.supportsPointerEvent
+   *
+   * @return {boolean} Whether or not the browser supports PointerEvents
+   */
+
+
+  interact.supportsPointerEvent = function () {
+    return utils_browser.supportsPointerEvent;
+  };
+  /**
+   * Cancels all interactions (end events are not fired)
+   *
+   * @alias module:interact.stop
+   *
+   * @return {object} interact
+   */
+
+
+  interact.stop = function () {
+    for (const interaction of this.scope.interactions.list) {
+      interaction.stop();
+    }
+
+    return this;
+  };
+  /**
+   * Returns or sets the distance the pointer must be moved before an action
+   * sequence occurs. This also affects tolerance for tap events.
+   *
+   * @alias module:interact.pointerMoveTolerance
+   *
+   * @param {number} [newValue] The movement from the start position must be greater than this value
+   * @return {interact | number}
+   */
+
+
+  interact.pointerMoveTolerance = function (newValue) {
+    if (is.number(newValue)) {
+      this.scope.interactions.pointerMoveTolerance = newValue;
+      return this;
+    }
+
+    return this.scope.interactions.pointerMoveTolerance;
+  };
+
+  interact.addDocument = function (doc, options) {
+    this.scope.addDocument(doc, options);
+  };
+
+  interact.removeDocument = function (doc) {
+    this.scope.removeDocument(doc);
+  };
+
+  return interact;
+}
+//# sourceMappingURL=InteractStatic.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/core/Interactable.js
 /* eslint-disable no-dupe-class-members */
 
@@ -5836,20 +6142,25 @@ class Interactable_Interactable {
 
 
       if (is.array(optionValue)) {
+        ;
         actionOptions[optionName] = from(optionValue);
       } // if the option value is an object
       else if (is.plainObject(optionValue)) {
           // copy the object
+          ;
           actionOptions[optionName] = extend(actionOptions[optionName] || {}, clone(optionValue)); // set anabled field to true if it exists in the defaults
 
           if (is.object(defaults.perAction[optionName]) && 'enabled' in defaults.perAction[optionName]) {
+            ;
             actionOptions[optionName].enabled = optionValue.enabled !== false;
           }
         } // if the option value is a boolean and the default is an object
         else if (is.bool(optionValue) && is.object(defaults.perAction[optionName])) {
+            ;
             actionOptions[optionName].enabled = optionValue;
           } // if it's anything else, do a plain assignment
           else {
+              ;
               actionOptions[optionName] = optionValue;
             }
     }
@@ -5859,7 +6170,7 @@ class Interactable_Interactable {
    * overridden using {@link Interactable.rectChecker}.
    *
    * @param {Element} [element] The element to measure.
-   * @return {Interact.Rect} The object's bounding rectangle.
+   * @return {Rect} The object's bounding rectangle.
    */
 
 
@@ -5911,9 +6222,11 @@ class Interactable_Interactable {
 
   _backCompatOption(optionName, newValue) {
     if (trySelector(newValue) || is.object(newValue)) {
+      ;
       this.options[optionName] = newValue;
 
       for (const action in this._actions.map) {
+        ;
         this.options[action][optionName] = newValue;
       }
 
@@ -6096,6 +6409,7 @@ class Interactable_Interactable {
       options = {};
     }
 
+    ;
     this.options = clone(defaults.base);
 
     for (const actionName_ in this._actions.methodDict) {
@@ -6108,6 +6422,7 @@ class Interactable_Interactable {
 
     for (const setting in options) {
       if (is.func(this[setting])) {
+        ;
         this[setting](options[setting]);
       }
     }
@@ -6209,6 +6524,7 @@ class InteractableSet_InteractableSet {
         });
       }
 
+      ;
       target[this.scope.id].push(mappingInfo);
     }
 
@@ -6238,8 +6554,8 @@ class InteractableSet_InteractableSet {
     for (const interactable of this.list) {
       let ret;
 
-      if ((is.string(interactable.target) // target is a selector and the element matches
-      ? is.element(node) && matchesSelector(node, interactable.target) : // target is the element
+      if ((is.string(interactable.target) ? // target is a selector and the element matches
+      is.element(node) && matchesSelector(node, interactable.target) : // target is the element
       node === interactable.target) && // the element is in context
       interactable.inContext(node)) {
         ret = callback(interactable);
@@ -6280,257 +6596,6 @@ pointerExtend.prefixedPropREs = {
 };
 /* harmony default export */ var utils_pointerExtend = (pointerExtend);
 //# sourceMappingURL=pointerExtend.js.map
-// CONCATENATED MODULE: ./node_modules/@interactjs/utils/pointerUtils.js
-
-
-
-
-
-
-function copyCoords(dest, src) {
-  dest.page = dest.page || {};
-  dest.page.x = src.page.x;
-  dest.page.y = src.page.y;
-  dest.client = dest.client || {};
-  dest.client.x = src.client.x;
-  dest.client.y = src.client.y;
-  dest.timeStamp = src.timeStamp;
-}
-function setCoordDeltas(targetObj, prev, cur) {
-  targetObj.page.x = cur.page.x - prev.page.x;
-  targetObj.page.y = cur.page.y - prev.page.y;
-  targetObj.client.x = cur.client.x - prev.client.x;
-  targetObj.client.y = cur.client.y - prev.client.y;
-  targetObj.timeStamp = cur.timeStamp - prev.timeStamp;
-}
-function setCoordVelocity(targetObj, delta) {
-  const dt = Math.max(delta.timeStamp / 1000, 0.001);
-  targetObj.page.x = delta.page.x / dt;
-  targetObj.page.y = delta.page.y / dt;
-  targetObj.client.x = delta.client.x / dt;
-  targetObj.client.y = delta.client.y / dt;
-  targetObj.timeStamp = dt;
-}
-function setZeroCoords(targetObj) {
-  targetObj.page.x = 0;
-  targetObj.page.y = 0;
-  targetObj.client.x = 0;
-  targetObj.client.y = 0;
-}
-function isNativePointer(pointer) {
-  return pointer instanceof utils_domObjects.Event || pointer instanceof utils_domObjects.Touch;
-} // Get specified X/Y coords for mouse or event.touches[0]
-
-function getXY(type, pointer, xy) {
-  xy = xy || {};
-  type = type || 'page';
-  xy.x = pointer[type + 'X'];
-  xy.y = pointer[type + 'Y'];
-  return xy;
-}
-function getPageXY(pointer, page) {
-  page = page || {
-    x: 0,
-    y: 0
-  }; // Opera Mobile handles the viewport and scrolling oddly
-
-  if (utils_browser.isOperaMobile && isNativePointer(pointer)) {
-    getXY('screen', pointer, page);
-    page.x += window.scrollX;
-    page.y += window.scrollY;
-  } else {
-    getXY('page', pointer, page);
-  }
-
-  return page;
-}
-function getClientXY(pointer, client) {
-  client = client || {};
-
-  if (utils_browser.isOperaMobile && isNativePointer(pointer)) {
-    // Opera Mobile handles the viewport and scrolling oddly
-    getXY('screen', pointer, client);
-  } else {
-    getXY('client', pointer, client);
-  }
-
-  return client;
-}
-function getPointerId(pointer) {
-  return is.number(pointer.pointerId) ? pointer.pointerId : pointer.identifier;
-}
-function setCoords(dest, pointers, timeStamp) {
-  const pointer = pointers.length > 1 ? pointerAverage(pointers) : pointers[0];
-  getPageXY(pointer, dest.page);
-  getClientXY(pointer, dest.client);
-  dest.timeStamp = timeStamp;
-}
-function getTouchPair(event) {
-  const touches = []; // array of touches is supplied
-
-  if (is.array(event)) {
-    touches[0] = event[0];
-    touches[1] = event[1];
-  } // an event
-  else {
-      if (event.type === 'touchend') {
-        if (event.touches.length === 1) {
-          touches[0] = event.touches[0];
-          touches[1] = event.changedTouches[0];
-        } else if (event.touches.length === 0) {
-          touches[0] = event.changedTouches[0];
-          touches[1] = event.changedTouches[1];
-        }
-      } else {
-        touches[0] = event.touches[0];
-        touches[1] = event.touches[1];
-      }
-    }
-
-  return touches;
-}
-function pointerAverage(pointers) {
-  const average = {
-    pageX: 0,
-    pageY: 0,
-    clientX: 0,
-    clientY: 0,
-    screenX: 0,
-    screenY: 0
-  };
-
-  for (const pointer of pointers) {
-    for (const prop in average) {
-      average[prop] += pointer[prop];
-    }
-  }
-
-  for (const prop in average) {
-    average[prop] /= pointers.length;
-  }
-
-  return average;
-}
-function touchBBox(event) {
-  if (!event.length) {
-    return null;
-  }
-
-  const touches = getTouchPair(event);
-  const minX = Math.min(touches[0].pageX, touches[1].pageX);
-  const minY = Math.min(touches[0].pageY, touches[1].pageY);
-  const maxX = Math.max(touches[0].pageX, touches[1].pageX);
-  const maxY = Math.max(touches[0].pageY, touches[1].pageY);
-  return {
-    x: minX,
-    y: minY,
-    left: minX,
-    top: minY,
-    right: maxX,
-    bottom: maxY,
-    width: maxX - minX,
-    height: maxY - minY
-  };
-}
-function touchDistance(event, deltaSource) {
-  const sourceX = deltaSource + 'X';
-  const sourceY = deltaSource + 'Y';
-  const touches = getTouchPair(event);
-  const dx = touches[0][sourceX] - touches[1][sourceX];
-  const dy = touches[0][sourceY] - touches[1][sourceY];
-  return hypot(dx, dy);
-}
-function touchAngle(event, deltaSource) {
-  const sourceX = deltaSource + 'X';
-  const sourceY = deltaSource + 'Y';
-  const touches = getTouchPair(event);
-  const dx = touches[1][sourceX] - touches[0][sourceX];
-  const dy = touches[1][sourceY] - touches[0][sourceY];
-  const angle = 180 * Math.atan2(dy, dx) / Math.PI;
-  return angle;
-}
-function getPointerType(pointer) {
-  return is.string(pointer.pointerType) ? pointer.pointerType : is.number(pointer.pointerType) ? [undefined, undefined, 'touch', 'pen', 'mouse'][pointer.pointerType] // if the PointerEvent API isn't available, then the "pointer" must
-  // be either a MouseEvent, TouchEvent, or Touch object
-  : /touch/.test(pointer.type) || pointer instanceof utils_domObjects.Touch ? 'touch' : 'mouse';
-} // [ event.target, event.currentTarget ]
-
-function getEventTargets(event) {
-  const path = is.func(event.composedPath) ? event.composedPath() : event.path;
-  return [getActualElement(path ? path[0] : event.target), getActualElement(event.currentTarget)];
-}
-function newCoords() {
-  return {
-    page: {
-      x: 0,
-      y: 0
-    },
-    client: {
-      x: 0,
-      y: 0
-    },
-    timeStamp: 0
-  };
-}
-function coordsToEvent(coords) {
-  const event = {
-    coords,
-
-    get page() {
-      return this.coords.page;
-    },
-
-    get client() {
-      return this.coords.client;
-    },
-
-    get timeStamp() {
-      return this.coords.timeStamp;
-    },
-
-    get pageX() {
-      return this.coords.page.x;
-    },
-
-    get pageY() {
-      return this.coords.page.y;
-    },
-
-    get clientX() {
-      return this.coords.client.x;
-    },
-
-    get clientY() {
-      return this.coords.client.y;
-    },
-
-    get pointerId() {
-      return this.coords.pointerId;
-    },
-
-    get target() {
-      return this.coords.target;
-    },
-
-    get type() {
-      return this.coords.type;
-    },
-
-    get pointerType() {
-      return this.coords.pointerType;
-    },
-
-    get buttons() {
-      return this.coords.buttons;
-    },
-
-    preventDefault() {}
-
-  };
-  return event;
-}
-
-//# sourceMappingURL=pointerUtils.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/core/events.js
 
 
@@ -6540,6 +6605,8 @@ function coordsToEvent(coords) {
 
 
 function install(scope) {
+  var _scope$document;
+
   const targets = [];
   const delegatedEvents = {};
   const documents = [];
@@ -6557,7 +6624,7 @@ function install(scope) {
     supportsPassive: false
   }; // check if browser supports passive events and options arg
 
-  scope.document.createElement('div').addEventListener('test', null, {
+  (_scope$document = scope.document) == null ? void 0 : _scope$document.createElement('div').addEventListener('test', null, {
     get capture() {
       return eventsMethods.supportsOptions = true;
     },
@@ -6674,11 +6741,7 @@ function install(scope) {
     const delegates = delegatedEvents[type];
     let matchFound = false;
     let index;
-
-    if (!delegates) {
-      return;
-    } // count from last index of delegated to 0
-
+    if (!delegates) return; // count from last index of delegated to 0
 
     for (index = delegates.length - 1; index >= 0; index--) {
       const cur = delegates[index]; // look for matching selector and context Node
@@ -6808,281 +6871,6 @@ function getOptions(param) {
   install
 });
 //# sourceMappingURL=events.js.map
-// CONCATENATED MODULE: ./node_modules/@interactjs/core/interactStatic.js
-/** @module interact */
-
-
-
-
-
-function createInteractStatic(scope) {
-  /**
-   * ```js
-   * interact('#draggable').draggable(true)
-   *
-   * var rectables = interact('rect')
-   * rectables
-   *   .gesturable(true)
-   *   .on('gesturemove', function (event) {
-   *       // ...
-   *   })
-   * ```
-   *
-   * The methods of this variable can be used to set elements as interactables
-   * and also to change various default settings.
-   *
-   * Calling it as a function and passing an element or a valid CSS selector
-   * string returns an Interactable object which has various methods to configure
-   * it.
-   *
-   * @global
-   *
-   * @param {Element | string} target The HTML or SVG Element to interact with
-   * or CSS selector
-   * @return {Interactable}
-   */
-  const interact = (target, options) => {
-    let interactable = scope.interactables.get(target, options);
-
-    if (!interactable) {
-      interactable = scope.interactables.new(target, options);
-      interactable.events.global = interact.globalEvents;
-    }
-
-    return interactable;
-  }; // expose the functions used to calculate multi-touch properties
-
-
-  interact.getPointerAverage = pointerAverage;
-  interact.getTouchBBox = touchBBox;
-  interact.getTouchDistance = touchDistance;
-  interact.getTouchAngle = touchAngle;
-  interact.getElementRect = getElementRect;
-  interact.getElementClientRect = getElementClientRect;
-  interact.matchesSelector = matchesSelector;
-  interact.closest = domUtils_closest;
-  interact.globalEvents = {}; // eslint-disable-next-line no-undef
-
-  interact.version = "1.10.0";
-  interact.scope = scope;
-  /**
-  * Use a plugin
-  *
-  * @alias module:interact.use
-  *
-  * @param {Object} plugin
-  * @param {function} plugin.install
-  * @return {Interact.InteractStatic}
-   */
-
-  interact.use = function (plugin, options) {
-    this.scope.usePlugin(plugin, options);
-    return this;
-  };
-  /**
-   * Check if an element or selector has been set with the {@link interact}
-   * function
-   *
-   * @alias module:interact.isSet
-   *
-   * @param {Element} element The Element being searched for
-   * @return {boolean} Indicates if the element or CSS selector was previously
-   * passed to interact
-   */
-
-
-  interact.isSet = function (target, options) {
-    return !!this.scope.interactables.get(target, options && options.context);
-  };
-  /**
-   * Add a global listener for an InteractEvent or adds a DOM event to `document`
-   *
-   * @alias module:interact.on
-   *
-   * @param {string | array | object} type The types of events to listen for
-   * @param {function} listener The function event (s)
-   * @param {object | boolean} [options] object or useCapture flag for
-   * addEventListener
-   * @return {object} interact
-   */
-
-
-  interact.on = function (type, listener, options) {
-    if (is.string(type) && type.search(' ') !== -1) {
-      type = type.trim().split(/ +/);
-    }
-
-    if (is.array(type)) {
-      for (const eventType of type) {
-        this.on(eventType, listener, options);
-      }
-
-      return this;
-    }
-
-    if (is.object(type)) {
-      for (const prop in type) {
-        this.on(prop, type[prop], listener);
-      }
-
-      return this;
-    } // if it is an InteractEvent type, add listener to globalEvents
-
-
-    if (isNonNativeEvent(type, this.scope.actions)) {
-      // if this type of event was never bound
-      if (!this.globalEvents[type]) {
-        this.globalEvents[type] = [listener];
-      } else {
-        this.globalEvents[type].push(listener);
-      }
-    } // If non InteractEvent type, addEventListener to document
-    else {
-        this.scope.events.add(this.scope.document, type, listener, {
-          options
-        });
-      }
-
-    return this;
-  };
-  /**
-   * Removes a global InteractEvent listener or DOM event from `document`
-   *
-   * @alias module:interact.off
-   *
-   * @param {string | array | object} type The types of events that were listened
-   * for
-   * @param {function} listener The listener function to be removed
-   * @param {object | boolean} options [options] object or useCapture flag for
-   * removeEventListener
-   * @return {object} interact
-   */
-
-
-  interact.off = function (type, listener, options) {
-    if (is.string(type) && type.search(' ') !== -1) {
-      type = type.trim().split(/ +/);
-    }
-
-    if (is.array(type)) {
-      for (const eventType of type) {
-        this.off(eventType, listener, options);
-      }
-
-      return this;
-    }
-
-    if (is.object(type)) {
-      for (const prop in type) {
-        this.off(prop, type[prop], listener);
-      }
-
-      return this;
-    }
-
-    if (isNonNativeEvent(type, this.scope.actions)) {
-      let index;
-
-      if (type in this.globalEvents && (index = this.globalEvents[type].indexOf(listener)) !== -1) {
-        this.globalEvents[type].splice(index, 1);
-      }
-    } else {
-      this.scope.events.remove(this.scope.document, type, listener, options);
-    }
-
-    return this;
-  };
-
-  interact.debug = function () {
-    return this.scope;
-  };
-  /**
-   * @alias module:interact.supportsTouch
-   *
-   * @return {boolean} Whether or not the browser supports touch input
-   */
-
-
-  interact.supportsTouch = function () {
-    return utils_browser.supportsTouch;
-  };
-  /**
-   * @alias module:interact.supportsPointerEvent
-   *
-   * @return {boolean} Whether or not the browser supports PointerEvents
-   */
-
-
-  interact.supportsPointerEvent = function () {
-    return utils_browser.supportsPointerEvent;
-  };
-  /**
-   * Cancels all interactions (end events are not fired)
-   *
-   * @alias module:interact.stop
-   *
-   * @return {object} interact
-   */
-
-
-  interact.stop = function () {
-    for (const interaction of this.scope.interactions.list) {
-      interaction.stop();
-    }
-
-    return this;
-  };
-  /**
-   * Returns or sets the distance the pointer must be moved before an action
-   * sequence occurs. This also affects tolerance for tap events.
-   *
-   * @alias module:interact.pointerMoveTolerance
-   *
-   * @param {number} [newValue] The movement from the start position must be greater than this value
-   * @return {interact | number}
-   */
-
-
-  interact.pointerMoveTolerance = function (newValue) {
-    if (is.number(newValue)) {
-      this.scope.interactions.pointerMoveTolerance = newValue;
-      return this;
-    }
-
-    return this.scope.interactions.pointerMoveTolerance;
-  };
-
-  interact.addDocument = function (doc, options) {
-    this.scope.addDocument(doc, options);
-  };
-
-  interact.removeDocument = function (doc) {
-    this.scope.removeDocument(doc);
-  };
-
-  return interact;
-}
-//# sourceMappingURL=interactStatic.js.map
-// CONCATENATED MODULE: ./node_modules/@interactjs/utils/misc.js
-
-function warnOnce(method, message) {
-  let warned = false;
-  return function () {
-    if (!warned) {
-      win.console.warn(message);
-      warned = true;
-    }
-
-    return method.apply(this, arguments);
-  };
-}
-function copyAction(dest, src) {
-  dest.name = src.name;
-  dest.axis = src.axis;
-  dest.edges = src.edges;
-  return dest;
-}
-//# sourceMappingURL=misc.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/core/PointerInfo.js
 class PointerInfo {
   constructor(id, pointer, event, downTime, downTarget) {
@@ -7531,11 +7319,7 @@ class Interaction_Interaction {
 
   removePointer(pointer, event) {
     const pointerIndex = this.getPointerIndex(pointer);
-
-    if (pointerIndex === -1) {
-      return;
-    }
-
+    if (pointerIndex === -1) return;
     const pointerInfo = this.pointers[pointerIndex];
 
     this._scopeFire('interactions:remove-pointer', {
@@ -7643,10 +7427,7 @@ function preventDefault(newValue) {
 
 function checkAndPreventDefault(interactable, scope, event) {
   const setting = interactable.options.preventDefault;
-
-  if (setting === 'never') {
-    return;
-  }
+  if (setting === 'never') return;
 
   if (setting === 'always') {
     event.preventDefault();
@@ -8172,6 +7953,7 @@ const interactions_interactions = {
 
 
 
+
 class scope_Scope {
   // main window
   // main document
@@ -8182,7 +7964,7 @@ class scope_Scope {
     this.isInitialized = false;
     this.listenerMaps = [];
     this.browser = utils_browser;
-    this.defaults = clone(defaultOptions_defaults);
+    this.defaults = clone(options_defaults);
     this.Eventable = Eventable_Eventable;
     this.actions = {
       map: {},
@@ -8376,10 +8158,15 @@ class scope_Scope {
 }
 function initScope(scope, window) {
   scope.isInitialized = true;
-  window_init(window);
+
+  if (is.window(window)) {
+    window_init(window);
+  }
+
   utils_domObjects.init(window);
   utils_browser.init(window);
-  raf.init(window);
+  raf.init(window); // @ts-expect-error
+
   scope.window = window;
   scope.document = window.document;
   scope.usePlugin(core_interactions);
@@ -8396,11 +8183,10 @@ function pluginIdRoot(id) {
 const interact_scope = new scope_Scope();
 const interact_interact = interact_scope.interactStatic;
 /* harmony default export */ var _interactjs_interact = (interact_interact);
-const interact_init = win => interact_scope.init(win);
 
-if (typeof window === 'object' && !!window) {
-  interact_init(window);
-}
+const _global = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : undefined;
+
+interact_scope.init(_global);
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/auto-start/InteractableMethods.js
 
@@ -8629,10 +8415,7 @@ function prepareOnDown({
   event,
   eventTarget
 }, scope) {
-  if (interaction.interacting()) {
-    return;
-  }
-
+  if (interaction.interacting()) return;
   const actionInfo = getActionInfo(interaction, pointer, event, eventTarget, scope);
   prepare(interaction, actionInfo, scope);
 }
@@ -8643,10 +8426,7 @@ function prepareOnMove({
   event,
   eventTarget
 }, scope) {
-  if (interaction.pointerType !== 'mouse' || interaction.pointerIsDown || interaction.interacting()) {
-    return;
-  }
-
+  if (interaction.pointerType !== 'mouse' || interaction.pointerIsDown || interaction.interacting()) return;
   const actionInfo = getActionInfo(interaction, pointer, event, eventTarget, scope);
   prepare(interaction, actionInfo, scope);
 }
@@ -8906,30 +8686,25 @@ function beforeStart({
   dx,
   dy
 }, scope) {
-  if (interaction.prepared.name !== 'drag') {
-    return;
-  } // check if a drag is in the correct axis
-
+  if (interaction.prepared.name !== 'drag') return; // check if a drag is in the correct axis
 
   const absX = Math.abs(dx);
   const absY = Math.abs(dy);
   const targetOptions = interaction.interactable.options.drag;
   const startAxis = targetOptions.startAxis;
   const currentAxis = absX > absY ? 'x' : absX < absY ? 'y' : 'xy';
-  interaction.prepared.axis = targetOptions.lockAxis === 'start' ? currentAxis[0] // always lock to one axis even if currentAxis === 'xy'
-  : targetOptions.lockAxis; // if the movement isn't in the startAxis of the interactable
+  interaction.prepared.axis = targetOptions.lockAxis === 'start' ? currentAxis[0] : // always lock to one axis even if currentAxis === 'xy'
+  targetOptions.lockAxis; // if the movement isn't in the startAxis of the interactable
 
   if (currentAxis !== 'xy' && startAxis !== 'xy' && startAxis !== currentAxis) {
     // cancel the prepared action
+    ;
     interaction.prepared.name = null; // then try to get a drag from another ineractable
 
     let element = eventTarget;
 
     const getDraggable = function (interactable) {
-      if (interactable === interaction.interactable) {
-        return;
-      }
-
+      if (interactable === interaction.interactable) return;
       const options = interaction.interactable.options.drag;
 
       if (!options.manualStart && interactable.testIgnoreAllow(options, element, eventTarget)) {
@@ -8946,6 +8721,7 @@ function beforeStart({
       const interactable = scope.interactables.forEachMatch(element, getDraggable);
 
       if (interactable) {
+        ;
         interaction.prepared.name = 'drag';
         interaction.interactable = interactable;
         interaction.element = element;
@@ -8996,7 +8772,7 @@ function getHoldDuration(interaction) {
   return options[actionName].hold || options[actionName].delay;
 }
 
-/* harmony default export */ var hold = ({
+const hold = {
   id: 'auto-start/hold',
   install: hold_install,
   listeners: {
@@ -9029,15 +8805,16 @@ function getHoldDuration(interaction) {
     'autoStart:before-start': ({
       interaction
     }) => {
-      const hold = getHoldDuration(interaction);
+      const holdDuration = getHoldDuration(interaction);
 
-      if (hold > 0) {
+      if (holdDuration > 0) {
         interaction.prepared.name = null;
       }
     }
   },
   getHoldDuration
-});
+};
+/* harmony default export */ var auto_start_hold = (hold);
 //# sourceMappingURL=hold.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/auto-start/plugin.js
 
@@ -9048,7 +8825,7 @@ function getHoldDuration(interaction) {
 
   install(scope) {
     scope.usePlugin(base);
-    scope.usePlugin(hold);
+    scope.usePlugin(auto_start_hold);
     scope.usePlugin(dragAxis);
   }
 
@@ -9057,17 +8834,6 @@ function getHoldDuration(interaction) {
 // CONCATENATED MODULE: ./node_modules/@interactjs/auto-start/index.js
 /* eslint-disable import/order, no-console, eol-last */
 
-
-
-if (typeof window === 'object' && !!window) {
-  interact_init(window);
-} // eslint-disable-next-line no-undef
-
-
-if (( true) && !_interactjs_interact.__warnedUseImport) {
-  _interactjs_interact.__warnedUseImport = true;
-  console.warn('[interact.js] The "@interactjs/*/index" packages are not quite stable yet. Use them with caution.');
-}
 
 _interactjs_interact.use(auto_start_plugin);
 //# sourceMappingURL=index.js.map
@@ -9089,10 +8855,7 @@ function plugin_install(scope) {
 function beforeMove({
   interaction
 }) {
-  if (interaction.prepared.name !== 'drag') {
-    return;
-  }
-
+  if (interaction.prepared.name !== 'drag') return;
   const axis = interaction.prepared.axis;
 
   if (axis === 'x') {
@@ -9112,10 +8875,7 @@ function move({
   iEvent,
   interaction
 }) {
-  if (interaction.prepared.name !== 'drag') {
-    return;
-  }
-
+  if (interaction.prepared.name !== 'drag') return;
   const axis = interaction.prepared.axis;
 
   if (axis === 'x' || axis === 'y') {
@@ -9238,21 +8998,9 @@ const drag = {
 /* eslint-disable import/order, no-console, eol-last */
 
 
-
-if (typeof window === 'object' && !!window) {
-  interact_init(window);
-} // eslint-disable-next-line no-undef
-
-
-if (( true) && !_interactjs_interact.__warnedUseImport) {
-  _interactjs_interact.__warnedUseImport = true;
-  console.warn('[interact.js] The "@interactjs/*/index" packages are not quite stable yet. Use them with caution.');
-}
-
 _interactjs_interact.use(drag_plugin);
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/actions/resize/plugin.js
-
 
 
 
@@ -9464,10 +9212,13 @@ function checkResizeEdge(name, value, page, element, interactableElement, rect, 
     return false;
   }
 
-  return is.element(value) // the value is an element to use as a resize handle
-  ? value === element // otherwise check if element matches value as selector
-  : matchesUpTo(element, value, interactableElement);
+  return is.element(value) ? // the value is an element to use as a resize handle
+  value === element : // otherwise check if element matches value as selector
+  matchesUpTo(element, value, interactableElement);
 }
+/* eslint-disable multiline-ternary */
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+
 
 function initCursors(browser) {
   return browser.isIe9 ? {
@@ -9496,6 +9247,8 @@ function initCursors(browser) {
     bottomleft: 'nesw-resize'
   };
 }
+/* eslint-enable multiline-ternary */
+
 
 function start({
   iEvent,
@@ -9529,15 +9282,11 @@ function plugin_move({
   iEvent,
   interaction
 }) {
-  if (interaction.prepared.name !== 'resize' || !interaction.prepared.edges) {
-    return;
-  }
-
+  if (interaction.prepared.name !== 'resize' || !interaction.prepared.edges) return;
   const resizeEvent = iEvent;
   const resizeOptions = interaction.interactable.options.resize;
   const invert = resizeOptions.invert;
-  const invertible = invert === 'reposition' || invert === 'negate'; // eslint-disable-next-line no-shadow
-
+  const invertible = invert === 'reposition' || invert === 'negate';
   const current = interaction.rect;
   const {
     start: startRect,
@@ -9589,10 +9338,7 @@ function end({
   iEvent,
   interaction
 }) {
-  if (interaction.prepared.name !== 'resize' || !interaction.prepared.edges) {
-    return;
-  }
-
+  if (interaction.prepared.name !== 'resize' || !interaction.prepared.edges) return;
   const resizeEvent = iEvent;
   resizeEvent.edges = interaction.prepared.edges;
   resizeEvent.rect = interaction._rects.corrected;
@@ -9603,10 +9349,7 @@ function updateEventAxes({
   iEvent,
   interaction
 }) {
-  if (interaction.prepared.name !== 'resize' || !interaction.resizeAxes) {
-    return;
-  }
-
+  if (interaction.prepared.name !== 'resize' || !interaction.resizeAxes) return;
   const options = interaction.interactable.options;
   const resizeEvent = iEvent;
 
@@ -9702,17 +9445,6 @@ const resize = {
 /* eslint-disable import/order, no-console, eol-last */
 
 
-
-if (typeof window === 'object' && !!window) {
-  interact_init(window);
-} // eslint-disable-next-line no-undef
-
-
-if (( true) && !_interactjs_interact.__warnedUseImport) {
-  _interactjs_interact.__warnedUseImport = true;
-  console.warn('[interact.js] The "@interactjs/*/index" packages are not quite stable yet. Use them with caution.');
-}
-
 _interactjs_interact.use(resize_plugin);
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/snappers/edgeTarget.js
@@ -9762,6 +9494,7 @@ _interactjs_interact.use(resize_plugin);
 });
 //# sourceMappingURL=grid.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/snappers/all.js
+/* eslint-disable import/no-named-as-default, import/no-unresolved */
 
 
 
@@ -9796,9 +9529,9 @@ class Modification_Modification {
       top: 0,
       bottom: 0
     };
-    this.startDelta = null;
-    this.result = null;
-    this.endResult = null;
+    this.startDelta = void 0;
+    this.result = void 0;
+    this.endResult = void 0;
     this.edges = void 0;
     this.interaction = void 0;
     this.interaction = interaction;
@@ -9819,11 +9552,11 @@ class Modification_Modification {
       x: 0,
       y: 0
     };
-    const arg = {
+    const arg = this.fillArg({
       phase,
       pageCoords,
       preEnd: false
-    };
+    });
     this.result = createResult();
     this.startAll(arg);
     const result = this.result = this.setAll(arg);
@@ -9840,11 +9573,10 @@ class Modification_Modification {
     arg.rect = arg.rect || interaction.rect;
     arg.edges = this.edges;
     arg.startOffset = this.startOffset;
+    return arg;
   }
 
   startAll(arg) {
-    this.fillArg(arg);
-
     for (const state of this.states) {
       if (state.methods.start) {
         arg.state = state;
@@ -9854,7 +9586,6 @@ class Modification_Modification {
   }
 
   setAll(arg) {
-    this.fillArg(arg);
     const {
       phase,
       preEnd,
@@ -9867,13 +9598,15 @@ class Modification_Modification {
     const newResult = createResult(arg.coords, arg.rect);
 
     for (const state of states) {
+      var _state$methods;
+
       const {
         options
       } = state;
       const lastModifierCoords = extend({}, arg.coords);
       let returnValue = null;
 
-      if (state.methods.set && this.shouldDo(options, preEnd, phase)) {
+      if ((_state$methods = state.methods) != null && _state$methods.set && this.shouldDo(options, preEnd, phase)) {
         arg.state = state;
         returnValue = state.methods.set(arg);
         addEdges(this.interaction.edges, arg.rect, {
@@ -9949,11 +9682,11 @@ class Modification_Modification {
       preEnd,
       skipModifiers
     } = arg;
-    const result = this.setAll({
+    const result = this.setAll(this.fillArg({
       preEnd,
       phase,
       pageCoords: arg.modifiedCoords || interaction.coords.cur.page
-    });
+    }));
     this.result = result; // don't fire an action move if a modifier would keep the event in the same
     // cordinates as before
 
@@ -10072,10 +9805,7 @@ class Modification_Modification {
       modification
     }
   }) {
-    if (!modification.result) {
-      return;
-    }
-
+    if (!modification.result) return;
     const {
       startDelta
     } = modification;
@@ -10195,6 +9925,7 @@ function makeModifier(module, name) {
 
     for (const prop in defaults) {
       if (!(prop in options)) {
+        ;
         options[prop] = defaults[prop];
       }
     }
@@ -10225,12 +9956,10 @@ function makeModifier(module, name) {
 }
 function addEventModifiers({
   iEvent,
-  interaction: {
-    modification: {
-      result
-    }
-  }
+  interaction
 }) {
+  const result = interaction.modification.result;
+
   if (result) {
     iEvent.modifiers = result.eventProps;
   }
@@ -10248,9 +9977,7 @@ const modifiersBase = {
       interaction.modification = new Modification_Modification(interaction);
     },
     'interactions:before-action-start': arg => {
-      const {
-        modification
-      } = arg.interaction;
+      const modification = arg.interaction.modification;
       modification.start(arg, arg.interaction.coords.start.page);
       arg.interaction.edges = modification.edges;
       modification.applyToInteraction(arg);
@@ -10278,7 +10005,7 @@ const modifiersBase = {
  * interact(target).resizable({
  *   modifiers: [
  *     interact.modifiers.snapSize({
- *       targets: [ interact.createSnapGrid({ x: 20, y: 20 }) ],
+ *       targets: [ interact.snappers.grid({ x: 20, y: 20 }) ],
  *     }),
  *     interact.aspectRatio({ ratio: 'preserve' }),
  *   ],
@@ -10329,11 +10056,7 @@ const aspectRatio = {
     }
 
     extend(arg.edges, linkedEdges);
-
-    if (!modifiers || !modifiers.length) {
-      return;
-    }
-
+    if (!modifiers || !modifiers.length) return;
     const subModification = new Modification_Modification(arg.interaction);
     subModification.copyFrom(arg.interaction.modification);
     subModification.prepareStates(modifiers);
@@ -10488,11 +10211,7 @@ function set({
     offset
   } = state;
   const restriction = getRestrictionRect(options.restriction, interaction, coords);
-
-  if (!restriction) {
-    return;
-  }
-
+  if (!restriction) return;
   const rect = xywhToTlbr(restriction);
   coords.x = Math.max(Math.min(rect.right - offset.right, coords.x), rect.left + offset.left);
   coords.y = Math.max(Math.min(rect.bottom - offset.bottom, coords.y), rect.top + offset.top);
@@ -10786,10 +10505,12 @@ function snap_pointer_start(arg) {
     relativePoint,
     x: startOffset.left - rect.width * relativePoint.x + snapOffset.x,
     y: startOffset.top - rect.height * relativePoint.y + snapOffset.y
-  })) : [extend({
+  })) : [{
     index: 0,
-    relativePoint: null
-  }, snapOffset)];
+    relativePoint: null,
+    x: snapOffset.x,
+    y: snapOffset.y
+  }];
 }
 
 function pointer_set(arg) {
@@ -10863,10 +10584,10 @@ function pointer_set(arg) {
       inRange = false;
     }
 
-    if (!closest.target || (inRange // is the closest target in range?
-    ? closest.inRange && range !== Infinity // the pointer is relatively deeper in this target
-    ? distance / range < closest.distance / closest.range // this target has Infinite range and the closest doesn't
-    : range === Infinity && closest.range !== Infinity || // OR this target is closer that the previous closest
+    if (!closest.target || (inRange ? // is the closest target in range?
+    closest.inRange && range !== Infinity ? // the pointer is relatively deeper in this target
+    distance / range < closest.distance / closest.range : // this target has Infinite range and the closest doesn't
+    range === Infinity && closest.range !== Infinity || // OR this target is closer that the previous closest
     distance < closest.distance : // The other is not in range and the pointer is closer to this target
     !closest.inRange && distance < closest.distance)) {
       closest.target = target;
@@ -11080,7 +10801,7 @@ const snapEdges = {
 
 //# sourceMappingURL=edges.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/modifiers/all.js
-/* eslint-disable node/no-extraneous-import */
+/* eslint-disable node/no-extraneous-import, import/no-unresolved */
 
 
 
@@ -11140,21 +10861,13 @@ const plugin_modifiers = {
 /* eslint-disable import/order, no-console, eol-last */
 
 
-
-if (typeof window === 'object' && !!window) {
-  interact_init(window);
-} // eslint-disable-next-line no-undef
-
-
-if (( true) && !_interactjs_interact.__warnedUseImport) {
-  _interactjs_interact.__warnedUseImport = true;
-  console.warn('[interact.js] The "@interactjs/*/index" packages are not quite stable yet. Use them with caution.');
-}
-
 _interactjs_interact.use(modifiers_plugin);
 //# sourceMappingURL=index.js.map
+// CONCATENATED MODULE: ./node_modules/@interactjs/dev-tools/visualizer/plugin.js
+/* harmony default export */ var visualizer_plugin = ({});
+//# sourceMappingURL=plugin.js.map
 // CONCATENATED MODULE: ./node_modules/@interactjs/dev-tools/plugin.js
-/* eslint-disable no-console */
+
 
 
 
@@ -11174,7 +10887,7 @@ const links = {
   boxSizing: 'https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing'
 }; // eslint-disable-next-line no-undef
 
-const isProduction = "development" === 'production'; // eslint-disable-next-line no-restricted-syntax
+const isProduction = "development" === 'production';
 
 function dev_tools_plugin_install(scope, {
   logger
@@ -11196,6 +10909,8 @@ function dev_tools_plugin_install(scope, {
 
     return this.options.devTools;
   };
+
+  scope.usePlugin(visualizer_plugin);
 }
 
 const checks = [{
@@ -11297,17 +11012,6 @@ const defaultExport = isProduction ? {
 // CONCATENATED MODULE: ./node_modules/@interactjs/dev-tools/index.js
 /* eslint-disable import/order, no-console, eol-last */
 
-
-
-if (typeof window === 'object' && !!window) {
-  interact_init(window);
-} // eslint-disable-next-line no-undef
-
-
-if (( true) && !_interactjs_interact.__warnedUseImport) {
-  _interactjs_interact.__warnedUseImport = true;
-  console.warn('[interact.js] The "@interactjs/*/index" packages are not quite stable yet. Use them with caution.');
-}
 
 _interactjs_interact.use(dev_tools_plugin);
 //# sourceMappingURL=index.js.map
@@ -12007,7 +11711,7 @@ _interactjs_interact.use(dev_tools_plugin);
         this.$emit("move", this.i, pos.x, pos.y);
       }
 
-      if (event.type === "dragend" && (this.previousX !== this.innerX || this.previousY !== this.innerY)) {
+      if (event.type === "dragend") {
         this.$emit("moved", this.i, pos.x, pos.y);
       }
 
@@ -12746,7 +12450,8 @@ module.exports = function(options) {
 
         function isDetached(element) {
             function isInDocument(element) {
-                return element === element.ownerDocument.body || element.ownerDocument.body.contains(element);
+                var isInShadowRoot = element.getRootNode && element.getRootNode().contains(element);
+                return element === element.ownerDocument.body || element.ownerDocument.body.contains(element) || isInShadowRoot;
             }
 
             if (!isInDocument(element)) {
@@ -13376,62 +13081,12 @@ module.exports = {
 
 /***/ }),
 
-/***/ "d864":
-/***/ (function(module, exports, __webpack_require__) {
-
-// optional / simple context binding
-var aFunction = __webpack_require__("79aa");
-module.exports = function (fn, that, length) {
-  aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
-};
-
-
-/***/ }),
-
 /***/ "d8e8":
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
   if (typeof it != 'function') throw TypeError(it + ' is not a function!');
   return it;
-};
-
-
-/***/ }),
-
-/***/ "d9f6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("e4ae");
-var IE8_DOM_DEFINE = __webpack_require__("794b");
-var toPrimitive = __webpack_require__("1bc3");
-var dP = Object.defineProperty;
-
-exports.f = __webpack_require__("8e60") ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
 };
 
 
@@ -13455,31 +13110,6 @@ module.exports = (
 /* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridLayout_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1156");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridLayout_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridLayout_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GridLayout_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "e4ae":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("f772");
-module.exports = function (it) {
-  if (!isObject(it)) throw TypeError(it + ' is not an object!');
-  return it;
-};
-
-
-/***/ }),
-
-/***/ "e53d":
-/***/ (function(module, exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 
 /***/ }),
@@ -13890,16 +13520,6 @@ $export($export.S + $export.F, 'Object', { assign: __webpack_require__("7333") }
 
 /***/ }),
 
-/***/ "f772":
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
-
-
-/***/ }),
-
 /***/ "fa5b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13921,7 +13541,13 @@ module.exports = document && document.documentElement;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "install", function() { return /* reexport */ components["d" /* install */]; });
+__webpack_require__.d(__webpack_exports__, "GridLayout", function() { return /* reexport */ components["b" /* GridLayout */]; });
+__webpack_require__.d(__webpack_exports__, "GridItem", function() { return /* reexport */ components["a" /* GridItem */]; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -13944,9 +13570,6 @@ if (typeof window !== 'undefined') {
 var components = __webpack_require__("2af9");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
-/* concated harmony reexport install */__webpack_require__.d(__webpack_exports__, "install", function() { return components["d" /* install */]; });
-/* concated harmony reexport GridLayout */__webpack_require__.d(__webpack_exports__, "GridLayout", function() { return components["b" /* GridLayout */]; });
-/* concated harmony reexport GridItem */__webpack_require__.d(__webpack_exports__, "GridItem", function() { return components["a" /* GridItem */]; });
 
 
 /* harmony default export */ var entry_lib = __webpack_exports__["default"] = (components["c" /* default */]);
@@ -13981,5 +13604,4 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 /***/ })
 
 /******/ })["default"];
-});
-//# sourceMappingURL=vue-grid-layout.umd.js.map
+//# sourceMappingURL=vue-grid-layout-lzy.common.js.map
